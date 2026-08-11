@@ -1,0 +1,4 @@
+interface:
+  display_name: "Archive Web Content"
+  short_description: "Archive web pages and X threads as traceable notes"
+  default_prompt: "Use $archive-web-content to save this URL as a traceable Markdown source note."
