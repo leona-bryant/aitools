@@ -172,6 +172,9 @@ def format_message(role, content):
     return f'<div class="message {css_class}">{formatted_content}</div>'
 
 def parse_chat_history(chat_html):
+    # Gradio sends None for an empty HTML component on the first message.
+    if not isinstance(chat_html, str) or not chat_html.strip():
+        return []
     soup = BeautifulSoup(chat_html, "html.parser")
     messages = []
     for message in soup.find_all(class_="message"):
@@ -207,8 +210,8 @@ def chat_interface():
                         send_button = gr.Button("发送", elem_id="send-btn")
 
         def update_chat(model, temperature, max_tokens, chat_history, user_input):
-            if not user_input.strip():
-                return chat_history, ""
+            if not isinstance(user_input, str) or not user_input.strip():
+                return chat_history or "", ""
             
             current_html = chat_history or ""
             
